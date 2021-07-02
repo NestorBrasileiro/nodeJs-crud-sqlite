@@ -22,7 +22,9 @@
   "homepage": "https://bitbucket.org/developmentOneZero/fileteste#readme",
   "dependencies": {
     "koa": "^2.13.1",
-    "koa-router": "^9.4.0"
+    "koa-router": "^9.4.0",
+    "sequelize": "^6.6.4",
+    "sqlite3": "^5.0.2"
   },
   "devDependencies": {
     "chai": "^4.2.0",
