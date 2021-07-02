@@ -9,6 +9,7 @@
 const Koa = require('koa');
 const router = require('./routes')
 
+const koa = new Koa();
 const PORT = process.env.PORT || 3000;
 
 
