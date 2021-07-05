@@ -7,6 +7,9 @@
 node_modules/
 dist/
 
+#dotenv
+.env
+
 # Compiled Java class files
 *.class
 
@@ -50,3 +53,6 @@ Thumbs.db
 
 #DataBaseFiles
 *.sqlite
+
+# Dotenv files
+*.env
