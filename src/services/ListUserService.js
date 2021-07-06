@@ -3,26 +3,18 @@ const User = require('../model/User');
 
 
 class ListUserService{
-    async execute({nome = undefined}){
+    async execute(nome = undefined){
         
         if(!nome){
-            try{
-                await DataBase.sync();
-                const userList = await User.findAll();
-                return userList;
-            }
-            catch(err){
-                console.log(err);
-                const erro = new Error("Internal Server Error");
-                erro.status = 500;
+                const erro = new Error("Not found");
+                erro.status = 404;
                 erro.expose = true;
                 throw erro;
-            }
         }
 
         try{
             await DataBase.sync();
-            const userList = await User.findAll({
+            const userList = await User.findOne({
                 where:{
                     nome: nome
                 }
