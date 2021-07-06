@@ -24,6 +24,7 @@ class CreateUserService{
             await DataBase.sync();
         }
         catch(err){
+            console.log(err)
             const erro = new Error("internal server Error");
             erro.status = 500;
             erro.expose = true;
