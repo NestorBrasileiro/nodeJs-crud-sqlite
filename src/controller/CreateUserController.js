@@ -14,7 +14,7 @@ class CreateUserController{
             idade
         })
 
-        return ctx.response.body = {user}; 
+        return ctx.response.body = {user};
 
     }
 }
