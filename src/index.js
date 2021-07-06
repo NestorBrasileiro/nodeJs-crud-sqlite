@@ -19,21 +19,16 @@ const PORT = process.env.PORT || 3000;
 
 
 function formatError(err){
-  if(err instanceof Error){
+  if(err.status != 401 && err.status != 404){
     return {
-      erro: err.message
+      erro: 'internal server error'
+    }
+  }
+    return {
+      erro: err.message 
     }
 
-  }
-  else{
-    return {
-      message: 'internal server error'
-    }
-  }
-  
 }
-
-
 
 koa.use(json());
 koa.use(bodyParser());
