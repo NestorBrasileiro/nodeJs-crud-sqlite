@@ -19,6 +19,11 @@ class ListUserService{
                     nome: nome
                 }
             });
+            if(!userList){
+                return {
+                    message: "User doesn't exist"
+                }
+            }
             return userList;
 
         }catch(err){
