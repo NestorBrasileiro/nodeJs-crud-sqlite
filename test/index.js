@@ -14,6 +14,7 @@ const assert = require('assert');
 const chai = require('chai')
 const chaiHttp = require('chai-http');
 const chaiJson = require('chai-json-schema');
+const { stringify } = require('querystring');
 
 chai.use(chaiHttp);
 chai.use(chaiJson);
@@ -25,6 +26,7 @@ const userSchema = {
     title: "Schema do Usuario, define como é o usuario, linha 24 do teste",
     type: "object",
     required: ['nome', 'email', 'idade'],
+    
     properties: {
         nome: {
             type: 'string'
@@ -66,7 +68,7 @@ describe('Testes da aplicaçao',  () => {
         .end(function (err, res) {
         expect(err).to.be.null;
         expect(res).to.have.status(200);
-        expect(res.body.rows).to.eql([]);
+        expect(res.body).to.eql({user: []});
         done();
         });
     });
@@ -81,15 +83,66 @@ describe('Testes da aplicaçao',  () => {
             done();
         });
     });
-    //...adicionar pelo menos mais 5 usuarios. se adicionar usuario menor de idade, deve dar erro. Ps: não criar o usuario naoExiste
+    it('deveria criar o usuario Nestor', function (done) {
+        chai.request(app)
+        .post('/user')
+        .send({nome: "nestor", email: "nestor@gmail.com.br", idade: 22})
+        .end(function (err, res) {
+            expect(err).to.be.null;
+            expect(res).to.have.status(201);
+            done();
+        });
+    });
+    it('deveria criar o usuario maria', function (done) {
+        chai.request(app)
+        .post('/user')
+        .send({nome: "maria", email: "maria@gmail.com", idade: 24})
+        .end(function (err, res) {
+            expect(err).to.be.null;
+            expect(res).to.have.status(201);
+            done();
+        });
+    });
+    it('deveria criar o usuario ricardo', function (done) {
+        chai.request(app)
+        .post('/user')
+        .send({nome: "ricardo", email: "ricardo@gmail.com", idade: 42})
+        .end(function (err, res) {
+            expect(err).to.be.null;
+            expect(res).to.have.status(201);
+            done();
+        });
+    });
+    it('deveria criar o usuario gabriela', function (done) {
+        chai.request(app)
+        .post('/user')
+        .send({nome: "gabriela", email: "gabriela@gmail.com", idade: 18})
+        .end(function (err, res) {
+            expect(err).to.be.null;
+            expect(res).to.have.status(201);
+            done();
+        });
+    });
+    it('deveria criar o usuario Rafael', function (done) {
+        chai.request(app)
+        .post('/user')
+        .send({nome: "rafael", email: "rafael@gmail.com", idade: 19})
+        .end(function (err, res) {
+            expect(err).to.be.null;
+            expect(res).to.have.status(201);
+            done();
+        });
+    });
+
+    
 
     it('o usuario naoExiste não existe no sistema', function (done) {
         chai.request(app)
         .get('/user/naoExiste')
         .end(function (err, res) {
-            expect(err.response.body.error).to.be.equal('User not found'); //possivelmente forma errada de verificar a mensagem de erro
+            console.log("\n"+err+"\n")
+            expect(err).to.be.null; 
             expect(res).to.have.status(404);
-            expect(res.body).to.be.jsonSchema(userSchema);
             done();
         });
     });
@@ -100,7 +153,7 @@ describe('Testes da aplicaçao',  () => {
         .end(function (err, res) {
             expect(err).to.be.null;
             expect(res).to.have.status(200);
-            expect(res.body).to.be.jsonSchema(userSchema);
+            expect(res.body).to.be.jsonSchema(userSchema.properties);
             done();
         });
     });
@@ -111,18 +164,18 @@ describe('Testes da aplicaçao',  () => {
         .end(function (err, res) {
             expect(err).to.be.null;
             expect(res).to.have.status(200);
-            expect(res.body).to.be.jsonSchema(userSchema);
+            expect(res.body).to.be.jsonSchema(userSchema.properties);
             done();
         });
     });
-
+   
     it('o usuario raupp não deve existir mais no sistema', function (done) {
         chai.request(app)
         .get('/user/raupp')
         .end(function (err, res) {
             expect(err).to.be.null;
-            expect(res).to.have.status(200);
-            expect(res.body).to.be.jsonSchema(userSchema);
+            expect(res).to.have.status(404); // 404 not found em vez do 200 OK?
+            expect(res.body).to.be.jsonSchema(userSchema.properties);
             done();
         });
     });
@@ -133,7 +186,7 @@ describe('Testes da aplicaçao',  () => {
         .end(function (err, res) {
         expect(err).to.be.null;
         expect(res).to.have.status(200);
-        expect(res.body.total).to.be.at.least(5);
+        expect(res.body.user.length).to.be.at.least(5);
         done();
         });
     });
