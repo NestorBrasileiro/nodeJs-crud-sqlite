@@ -11,28 +11,19 @@ class ListUserService{
                 erro.expose = true;
                 throw erro;
         }
-
-        try{
-            await DataBase.sync();
-            const userList = await User.findOne({
-                where:{
-                    nome: nome
-                }
-            });
-            if(!userList){
-                return {
-                    message: "User doesn't exist"
-                }
+        await DataBase.sync();
+        const userList = await User.findOne({
+            where:{
+                nome: nome
             }
-            return userList;
-
-        }catch(err){
-            console.log(err);
-                const erro = new Error("Internal Server Error");
-                erro.status = 500;
-                erro.expose = true;
-                throw erro;
+        });
+        if(!userList){
+            const erro = new Error("User not found");
+            erro.status = 404;
+            erro.expose = true;
+            throw erro;
         }
+        return userList;
     }
 }
 module.exports = ListUserService;
