@@ -6,6 +6,7 @@ class ListAllUsersController{
         const listAllUserService = new ListAllUsersService();
         const user = await listAllUserService.execute();
         return ctx.response.body = {user}; 
+        
     }
 }
 module.exports = ListAllUsersController;
