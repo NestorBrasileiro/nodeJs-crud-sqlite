@@ -11,26 +11,21 @@ class DeleteUserService{
                 erro.expose = true;
                 throw erro;
         }
-        try{
-            await DataBase.sync();
-            const findAndDelete = await User.destroy({
-                where:{
-                    nome: nome
-                }
-            });
-
-            return {
-                findAndDelete,
-                message: "user deleted"
-            };
-
-        }catch(err){
-            console.log(err);
-                const erro = new Error("Internal Server Error");
-                erro.status = 500;
-                erro.expose = true;
-                throw erro;
+        await DataBase.sync();
+        const user = await User.findOne({
+            where:{
+                nome: nome
+            }
+        });
+        
+        if(!user){
+            const erro = new Error("User not found");
+            erro.status = 404;
+            erro.expose = true;
+            throw erro;
         }
+        await user.destroy()
+        return user;
     }
 }
 module.exports = DeleteUserService;
