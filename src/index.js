@@ -12,7 +12,11 @@ const router = require('./routes');
 const json = require('koa-json');
 const bodyParser = require('koa-bodyparser');
 const error = require('koa-json-error');
+const swagger = require('swagger2')
+const {ui} = require("swagger2-koa")
 
+
+const swaggerDocument = swagger.loadDocumentSync("src/api.yaml");
 const koa = new Koa();
 const PORT = process.env.PORT || 3000;
 
@@ -26,10 +30,13 @@ function formatError(err){
     error: err.message 
   }
 }
-koa.use(json());
-koa.use(bodyParser());
-koa.use(error(formatError))
-koa.use(router.routes()).use(router.allowedMethods());
+
+koa
+  .use(ui(swaggerDocument, "/swagger"))
+  .use(json())
+  .use(bodyParser())
+  .use(error(formatError))
+  .use(router.routes()).use(router.allowedMethods());
 
 const server = koa.listen(PORT,() => {
   console.log("Server is Running");
