@@ -20,31 +20,20 @@ class CreateUserService{
             throw err;
         }
         
-        try{
-            await DataBase.sync();
-        }
-        catch(err){
-            console.log(err)
-            const erro = new Error("internal server Error");
-            erro.status = 500;
-            erro.expose = true;
-            throw erro;
-        }
-
+        
+        await DataBase.sync();
         const userAlreadExists = await User.findOne({
             where:{
-                email: email
+            email: email
             }
         })
-        
+    
         if(userAlreadExists){
             const err = new Error("User already exists");
             err.status = 400;
             err.expose = true;
             throw err;
         }
-
-
         const createNewUser = await User.create({
             nome: nome,
             email: email,
