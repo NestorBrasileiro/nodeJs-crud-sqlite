@@ -13,23 +13,19 @@ const json = require('koa-json');
 const bodyParser = require('koa-bodyparser');
 const error = require('koa-json-error');
 
-
 const koa = new Koa();
 const PORT = process.env.PORT || 3000;
 
-
 function formatError(err){
-  if(err.status != 401 && err.status != 404){
+  if(err.status != 400 && err.status != 404){
     return {
-      erro: 'internal server error'
+      error: 'internal server error'
     }
   }
-    return {
-      erro: err.message 
-    }
-
+  return {
+    error: err.message 
+  }
 }
-
 koa.use(json());
 koa.use(bodyParser());
 koa.use(error(formatError))
