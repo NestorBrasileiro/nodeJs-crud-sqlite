@@ -1,0 +1,129 @@
+openapi: 3.0.1
+info:
+  title: Teste OzMap
+  description: CRUD em NodeJs com SQLite
+  version: '1.0'
+servers:
+  - url: 'http://localhost:3005'
+paths:
+  /users:
+    get:
+      description: Buscar os usuários existentes
+      responses:
+        '200':
+          description: Retorna uma lista de usuários em forma de objeto
+          content:
+            application/json; charset=utf-8:
+              schema:
+                type: string
+              examples: {}
+      servers:
+        - url: 'http://localhost:3005'
+    servers:
+      - url: 'http://localhost:3005'
+  /user/{nome}:
+    get:
+      description: Buscar usuário
+      parameters:
+        - name: nome
+          description: Nome do Usuário
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Retorna um objeto com as informações do usuário
+          content:
+            application/json; charset=utf-8:
+              schema:
+                type: string
+              examples: {}
+        '404':
+          description: Usuário não encontrado
+          content:
+            application/json; charset=utf-8:
+              schema:
+                type: string
+              examples: {}
+      servers:
+        - url: 'http://localhost:3005'
+    delete:
+      description: Deletar o usuário do banco de dados
+      parameters:
+        - name: nome
+          description: Nome do Usuário
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Após deletar, mostra ao usuário as informações deletadas em forma de objeto
+          content:
+            application/json; charset=utf-8:
+              schema:
+                type: string
+              examples: {}
+      servers:
+        - url: 'http://localhost:3005'
+    servers:
+      - url: 'http://localhost:3005'
+  /user:
+    post:
+      description: Cadatro de usuário no banco de dados
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                idade:
+                  type: integer
+                nome:
+                  type: string
+                email:
+                  type: string
+            examples:
+              '0':
+                value: |-
+                  {
+                      "nome":"nameUser",
+                      "email": "user@email.com",
+                      "idade": 22
+                  }
+              '1':
+                value: '{}'
+              '2':
+                value: |-
+                  {
+                      "nome":"nameUser",
+                      "email": "user@email.com",
+                      "idade": 22
+                  }
+      responses:
+        '201':
+          description: Retorna o usuário cadastrado em forma de objeto
+          content:
+            application/json; charset=utf-8:
+              schema:
+                type: string
+              examples: {
+                      'id': '1',
+                      'nome': 'nameUser',
+                      'email': 'user@email.com',
+                      'idade': 22
+              }
+        '400':
+          description: Retorna que o usuário já existe
+          content:
+            application/json; charset=utf-8:
+              schema:
+                type: string
+              examples: {
+                "error": "user already exists"
+              }
+      servers:
+        - url: 'http://localhost:3005'
+    servers:
+      - url: 'http://localhost:3005'
