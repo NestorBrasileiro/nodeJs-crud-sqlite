@@ -28,7 +28,9 @@
     "koa-json-error": "^3.1.2",
     "koa-router": "^9.4.0",
     "sequelize": "^6.6.4",
-    "sqlite3": "^5.0.2"
+    "sqlite3": "^5.0.2",
+    "swagger-ui-koa": "^0.0.1",
+    "swagger2-koa": "^3.0.0"
   },
   "devDependencies": {
     "chai": "^4.2.0",
